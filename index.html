@@ -29,9 +29,14 @@
         <input type="time" id="time" required>
         <small>As exact as you know it — check your birth certificate.</small>
       </label>
+      <label>Birth city
+        <input type="text" id="birthcity" placeholder="e.g. Seoul" autocomplete="off">
+        <div id="citysuggest" class="suggest" hidden></div>
+        <small>Start typing and pick your birth city — the time zone sets itself.</small>
+      </label>
       <label>Birthplace time zone
         <select id="tz"></select>
-        <small>Pick the time zone of the city where you were born. Daylight saving is handled automatically.</small>
+        <small id="tznote">Daylight saving is handled automatically.</small>
       </label>
     </div>
     <button type="submit" class="cta">Reveal my map</button>
@@ -58,6 +63,7 @@
 
 <script src="astro.js"></script>
 <script src="cities.js"></script>
+<script src="birth-cities.js"></script>
 <script src="interpretations.js"></script>
 <script src="app.js"></script>
 </body>
