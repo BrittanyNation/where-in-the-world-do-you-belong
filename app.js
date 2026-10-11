@@ -150,7 +150,7 @@ function cityBlurb(c) {
   return m.text;
 }
 
-function renderResults(name, chart, scored) {
+function renderResults(name, birthCity, chart, scored) {
   const top = scored.slice(0, 8);
   top.forEach((c, i) => c.rank = i + 1);
   drawMap(document.getElementById("worldmap"), chart, top);
@@ -158,7 +158,8 @@ function renderResults(name, chart, scored) {
   const el = document.getElementById("citylist");
   el.innerHTML = "";
   const h2 = document.createElement("h2");
-  h2.textContent = name ? `${name}, where you belong:` : "Where you belong:";
+  const who = name || "You";
+  h2.textContent = birthCity ? `${who}, born in ${birthCity} — where you belong:` : `${who}, where you belong:`;
   el.appendChild(h2);
   top.forEach((c, i) => {
     const card = document.createElement("div");
@@ -215,6 +216,46 @@ document.addEventListener("DOMContentLoaded", () => {
     const ud = new Date(utcMs);
     const chart = computeChart(ud.getUTCFullYear(), ud.getUTCMonth() + 1, ud.getUTCDate(),
                                ud.getUTCHours() + ud.getUTCMinutes() / 60);
-    renderResults(name, chart, scoreCities(chart));
+    renderResults(name, document.getElementById("birthcity").dataset.display || "", chart, scoreCities(chart));
   });
+
+  // Birth city autocomplete -> auto timezone
+  const cityInput = document.getElementById("birthcity");
+  const suggest = document.getElementById("citysuggest");
+  const tzNote = document.getElementById("tznote");
+  function ensureTzOption(tz) {
+    let opt = [...tzSel.options].find(o => o.value === tz);
+    if (!opt) {
+      opt = document.createElement("option");
+      opt.value = tz;
+      opt.textContent = tz.replace(/_/g, " ");
+      tzSel.appendChild(opt);
+    }
+    return opt;
+  }
+  cityInput.addEventListener("input", () => {
+    const q = cityInput.value.trim().toLowerCase();
+    cityInput.dataset.display = "";
+    suggest.innerHTML = "";
+    if (q.length < 2) { suggest.hidden = true; return; }
+    const matches = BIRTH_CITIES.filter(([n, c]) =>
+      n.toLowerCase().includes(q) || c.toLowerCase().includes(q)).slice(0, 8);
+    if (!matches.length) { suggest.hidden = true; return; }
+    for (const [n, c, tz] of matches) {
+      const div = document.createElement("div");
+      div.className = "suggest-item";
+      div.textContent = `${n}, ${c}`;
+      div.addEventListener("mousedown", e => {
+        e.preventDefault();
+        cityInput.value = `${n}, ${c}`;
+        cityInput.dataset.display = `${n}, ${c}`;
+        ensureTzOption(tz).selected = true;
+        tzNote.textContent = `Time zone set from ${n} — change it if that's not right.`;
+        suggest.hidden = true;
+      });
+      suggest.appendChild(div);
+    }
+    suggest.hidden = false;
+  });
+  cityInput.addEventListener("blur", () => setTimeout(() => suggest.hidden = true, 150));
 });
