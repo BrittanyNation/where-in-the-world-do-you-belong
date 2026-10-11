@@ -57,6 +57,13 @@ input:focus, select:focus { outline: 2px solid var(--rose); border-color: var(--
 }
 .cta:hover { transform: translateY(-2px); }
 .fine { text-align: center; color: var(--ink-soft); font-size: 0.85rem; margin-bottom: 0; }
+.suggest {
+  position: relative; background: #fff; border: 1.5px solid var(--blush-deep);
+  border-radius: 0.7rem; margin-top: 0.3rem; overflow: hidden;
+  box-shadow: 0 8px 20px rgba(185, 74, 94, 0.12); z-index: 10;
+}
+.suggest-item { padding: 0.6rem 0.9rem; cursor: pointer; font-weight: normal; font-size: 0.95rem; }
+.suggest-item:hover { background: var(--blush); }
 #worldmap { width: 100%; border-radius: 1rem; border: 1px solid var(--blush-deep); background: var(--cream); }
 .legend { margin-top: 1.25rem; }
 .legend h3 { color: var(--rose-deep); margin-bottom: 0.5rem; }
