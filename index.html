@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Where in the World Do You Belong? — Astrocartography Calculator</title>
+<meta name="description" content="Enter your birth details and discover the cities on Earth where your stars shine brightest. A free astrocartography calculator.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="hero">
+  <div class="stars" aria-hidden="true"></div>
+  <h1>Where in the World<br>Do You Belong?</h1>
+  <p class="subtitle">The moment you were born, the planets drew lines across the Earth.<br>
+  Enter your birth details and find the cities where your lines light up.</p>
+</header>
+
+<main>
+  <form id="calc" class="card">
+    <h2>Your birth details</h2>
+    <div class="grid">
+      <label>Name (optional)
+        <input type="text" id="name" placeholder="e.g. Brittany" autocomplete="off">
+      </label>
+      <label>Birth date
+        <input type="date" id="date" required min="1900-01-01" max="2026-12-31">
+      </label>
+      <label>Birth time
+        <input type="time" id="time" required>
+        <small>As exact as you know it — check your birth certificate.</small>
+      </label>
+      <label>Birthplace time zone
+        <select id="tz"></select>
+        <small>Pick the time zone of the city where you were born. Daylight saving is handled automatically.</small>
+      </label>
+    </div>
+    <button type="submit" class="cta">Reveal my map</button>
+    <p class="fine">Your details never leave this page. Everything is calculated in your browser.</p>
+  </form>
+
+  <section id="results" hidden>
+    <div class="card">
+      <h2>Your astrocartography map</h2>
+      <canvas id="worldmap"></canvas>
+      <div id="legend" class="legend"></div>
+    </div>
+    <div id="citylist" class="card"></div>
+    <div class="card how">
+      <h2>How this works</h2>
+      <p>Astrocartography maps where each planet was on one of the four angles (Ascendant, Midheaven, Descendant, IC) at the exact moment of your birth. Along a <strong>Sun</strong> line you shine; along a <strong>Jupiter</strong> line luck finds you; along a <strong>Venus</strong> line life softens. The cities ranked above are where your Sun, Jupiter, and Venus lines fall closest. This is a tool for reflection and fun, not a directive: the best place is still the one you love.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>Made with starlight · Planetary math: Paul Schlyter's algorithm · Map data: Natural Earth</p>
+</footer>
+
+<script src="astro.js"></script>
+<script src="cities.js"></script>
+<script src="interpretations.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
